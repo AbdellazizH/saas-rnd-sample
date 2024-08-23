@@ -20,6 +20,7 @@ from django.urls import path
 from djangoProjectSaasV2 import views
 
 urlpatterns = [
-    path("", views.home_page_view, name="home"),
+    path("", views.home_view, name="home"),
+    path("about/", views.about_page_view, name="about"),
     path("admin/", admin.site.urls),
 ]
