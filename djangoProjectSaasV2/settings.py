@@ -11,19 +11,19 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-&+@40d$7sm)pp3rhps7%nq)^#b0e#atym-_n2)f$a40uixhgd6"
+SECRET_KEY = config('DJANGO_SECRET_KEY', cast=str)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = [
     ".railway.app"  # https://saas.prod.railway.app
@@ -33,7 +33,6 @@ if DEBUG:
         "localhost",
         "127.0.0.1",
     ]
-
 
 # Application definition
 
@@ -81,16 +80,44 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "djangoProjectSaasV2.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
+# Replace the DATABASES section of your settings.py with this
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('PGDATABASE'),
+        'USER': config('PGUSER'),
+        'PASSWORD': config('PGPASSWORD'),
+        'HOST': config('PGHOST'),
+        'PORT': config('PGPORT', 5432),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
+
+# Add these at the top of your settings.py from console.neon.tech
+DATABASE_URL = config('DATABASE_URL', default=None, cast=str)
+if DATABASE_URL is not None:
+    import dj_database_url
+
+    # Replace the DATABASES section of your settings.py with this
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=30,
+            conn_health_checks=True
+        ),
+    }
 
 
 # Password validation
@@ -111,7 +138,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -122,7 +148,6 @@ TIME_ZONE = "Europe/Paris"
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
