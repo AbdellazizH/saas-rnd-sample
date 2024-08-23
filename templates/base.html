@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}SaaS{% endblock %}</title>
+  {% include 'base/css.html' %}
+</head>
+<body>
+  {% include 'navbar.html' %}
+  {% block content %}
+  	
+  {% endblock %}
+  {% include 'base/js.html' %}
+</body>
+</html>
