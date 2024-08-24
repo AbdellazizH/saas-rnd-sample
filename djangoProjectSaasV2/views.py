@@ -4,7 +4,7 @@ from visits.models import PageVisit
 
 
 def home_view(request):
-    print(request.user.is_authenticated, request.user.first_name)
+    print(request.user.is_authenticated, request.user)
     return about_page_view(request)
 
 

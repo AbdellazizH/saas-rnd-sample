@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import path
 
 from djangoProjectSaasV2 import views
+from my_auth import views as auth_views
 
 urlpatterns = [
     path("", views.home_view, name="home"),
+    path("login/", auth_views.login_view, name="login_view"),
     path("about/", views.about_page_view, name="about"),
     path("admin/", admin.site.urls),
 ]
