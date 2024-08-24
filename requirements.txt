@@ -4,3 +4,4 @@ Pillow
 python-decouple
 dj-database-url
 psycopg2
+requests
