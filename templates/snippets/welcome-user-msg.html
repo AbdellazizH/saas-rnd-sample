@@ -1,7 +1,4 @@
 <div>
-  {% if request.user.authenticated %}
-    Hello request.user.username !
-  {% else %}
-    You are not a user !
-  {% endif %}
+  {% if request.user.is_authenticated %} Hello {{request.user}} ! {% else %} You
+  are not a user ! {% endif %}
 </div>
