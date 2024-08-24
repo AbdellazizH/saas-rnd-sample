@@ -1,0 +1,15 @@
+{% extends "base.html" %} 
+
+{% block title %} {{ page_title }} - {{ block.super }} {% endblock %} 
+
+{% block content %}
+    <h1>{{ page_title }}</h1>
+    <form action="/register/" method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username" />
+        <input type="email" name="email" placeholder="Your email" />
+        <input type="password" name="password" placeholder="Your password" />
+        
+        <button type="submit">Register</button>
+    </form>
+{% endblock %}
